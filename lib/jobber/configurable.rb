@@ -2,7 +2,7 @@ require "hashie"
 
 module Jobber
   module Configurable
-    KEYS = [:client_id, :client_secret, :verbose].freeze
+    KEYS = [:client_id, :client_secret, :max_retries, :verbose].freeze
 
     attr_writer(*KEYS)
 
