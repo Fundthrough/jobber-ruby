@@ -41,7 +41,6 @@ module Jobber
         when 401
           raise Jobber::AuthorizationError, response.body
         end
-        # TODO: Handle other errors
       end
 
       def parse_json(body)

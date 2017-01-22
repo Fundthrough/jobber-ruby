@@ -1,2 +1,9 @@
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-require "jobber/ruby"
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+
+require "jobber-ruby"
+require "simplecov"
+require "codecov"
+
+SimpleCov.start
+SimpleCov.formatter = SimpleCov::Formatter::Codecov

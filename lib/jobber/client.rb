@@ -25,6 +25,10 @@ module Jobber
       @access_token
     end
 
+    def token_expired?
+      !(@token_expired_at.present? && @token_expired_at.future?)
+    end
+
     def token
       Jobber::API::Token.new(self)
     end
@@ -44,12 +48,5 @@ module Jobber
     def transaction
       Jobber::API::Transaction.new(self)
     end
-
-    protected
-
-    def token_expired?
-      !(@token_expired_at.present? && @token_expired_at.future?)
-    end
-
   end
 end
