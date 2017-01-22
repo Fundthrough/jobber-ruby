@@ -1,7 +1,6 @@
 module Jobber
   module API
     class Token < Base
-
       def refresh
         endpoint = "/oauth/token"
         query = {
@@ -14,7 +13,7 @@ module Jobber
         request(:post, endpoint, query: query)
 
       rescue Jobber::AuthorizationError => e
-        raise Jobber::AccessTokenRefreshError.new(e)
+        raise Jobber::AccessTokenRefreshError, e
       end
 
       def revoke

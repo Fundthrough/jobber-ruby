@@ -56,7 +56,7 @@ describe Jobber::Fetcher do
 
     context "without connection errors" do
       let(:request_opts) { { body: json_body, headers: request_headers, query: query } }
-      let(:json_body) { {client:{"username":"Vivo","first_name":"Jemmy","last_name":"Vardy"}} }
+      let(:json_body) { { client: { "username": "Vivo", "first_name": "Jemmy", "last_name": "Vardy" } } }
 
       before do
         allow(described_class).to receive(method).and_return(response)

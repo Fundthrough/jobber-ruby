@@ -10,11 +10,11 @@ describe Jobber::Client do
     let(:response) { double(:response, body: body) }
     let(:body) { double(:body, access_token: access_token) }
     let(:access_token) do
-      [
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9",
-        "eyJhcHBfaWQiOiJmdW5kdGhyb3VnaF9kZXYiLCJ1c2VyX2lkIjoyMDYwMzMsImFjY291bnRfaWQiOjY5Njc2LCJleHAiOjE1NzkxOTA1Mzh9",
-        "Y3djx61to2LxWd9_xKAkxbIi3WucNnc1o4gh7VXL4Ds"
-      ].join(".")
+      %w(
+        eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+        eyJhcHBfaWQiOiJmdW5kdGhyb3VnaF9kZXYiLCJ1c2VyX2lkIjoyMDYwMzMsImFjY291bnRfaWQiOjY5Njc2LCJleHAiOjE1NzkxOTA1Mzh9
+        Y3djx61to2LxWd9_xKAkxbIi3WucNnc1o4gh7VXL4Ds
+      ).join(".")
     end
 
     before do
