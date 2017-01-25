@@ -11,11 +11,18 @@ module Jobber
       protected
 
       def request(*args)
-        args[2] = args[2].to_h.deep_merge!(headers: { "Authorization" => "Bearer #{jobber_client.access_token}" })
+        args[2] = args[2].to_h.deep_merge!(headers: default_headers)
         ::Jobber::Fetcher.request(*args)
       rescue Jobber::AuthorizationError
         jobber_client.refresh_access_token!
         request(*args)
+      end
+
+      def default_headers
+        {
+          "API-ACCESS-TOKEN" => jobber_client.access_token,
+          "X-API-SIDE-LOADING-ENABLED" => "true"
+        }
       end
     end
   end
