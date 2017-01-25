@@ -5,7 +5,7 @@ describe Jobber::API::Base do
 
   let(:jobber_client) { double(:client, access_token: access_token) }
   let(:access_token) { "token" }
-
+  let(:default_headers) { { "API-ACCESS-TOKEN" => "token", "X-API-SIDE-LOADING-ENABLED" => "true" } }
   before do
     allow(::Jobber::Fetcher).to receive(:request)
     allow(jobber_client).to receive(:refresh_access_token!)
@@ -16,15 +16,13 @@ describe Jobber::API::Base do
     context "without opts" do
       before { subject.request(:get, "/voice") }
 
-      let(:headers) { { "Authorization" => "Bearer token" } }
-
-      it { expect(::Jobber::Fetcher).to have_received(:request).with(:get, "/voice", headers: headers) }
+      it { expect(::Jobber::Fetcher).to have_received(:request).with(:get, "/voice", headers: default_headers) }
     end
 
     context "with query opt" do
       before { subject.request(:get, "/voice", query: query) }
 
-      let(:headers) { { "Authorization" => "Bearer token" } }
+      let(:headers) { default_headers }
       let(:query) { { page: 1 } }
 
       it { expect(::Jobber::Fetcher).to have_received(:request).with(:get, "/voice", query: query, headers: headers) }
@@ -33,7 +31,7 @@ describe Jobber::API::Base do
     context "with query & headers opt" do
       before { subject.request(:get, "/voice", query: query, headers: { ping: "pong" }) }
 
-      let(:headers) { { ping: "pong", "Authorization" => "Bearer token" } }
+      let(:headers) { { ping: "pong" }.merge(default_headers) }
       let(:query) { { page: 1 } }
 
       it { expect(::Jobber::Fetcher).to have_received(:request).with(:get, "/voice", query: query, headers: headers) }

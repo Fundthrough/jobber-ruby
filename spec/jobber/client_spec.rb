@@ -75,19 +75,23 @@ describe Jobber::Client do
     it { expect(subject.token).to be_instance_of(Jobber::API::Token) }
   end
 
-  describe "#invoice" do
-    it { expect(subject.invoice).to be_instance_of(Jobber::API::Invoice) }
+  describe "#account" do
+    it { expect(subject.account).to be_instance_of(Jobber::API::Account) }
+  end
+
+  describe "#user" do
+    it { expect(subject.user).to be_instance_of(Jobber::API::User) }
   end
 
   describe "#client" do
     it { expect(subject.client).to be_instance_of(Jobber::API::Client) }
   end
 
-  describe "#transaction" do
-    it { expect(subject.transaction).to be_instance_of(Jobber::API::Transaction) }
+  describe "#invoice" do
+    it { expect(subject.invoice).to be_instance_of(Jobber::API::Invoice) }
   end
 
-  describe "#account" do
-    it { expect(subject.account).to be_instance_of(Jobber::API::Account) }
+  describe "#transaction" do
+    it { expect(subject.transaction).to be_instance_of(Jobber::API::Transaction) }
   end
 end
