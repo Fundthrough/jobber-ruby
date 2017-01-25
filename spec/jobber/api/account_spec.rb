@@ -13,4 +13,10 @@ describe Jobber::API::Account do
 
     it { expect(subject).to have_received(:request).with(:get, "/accounts/123") }
   end
+
+  describe "#current" do
+    before { subject.current }
+
+    it { expect(subject).to have_received(:request).with(:get, "/accounts/me") }
+  end
 end

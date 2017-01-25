@@ -22,7 +22,7 @@ module Jobber
       protected
 
       def fetch(method, endpoint, opts)
-        response = send(method, endpoint, opts)
+        response = send(method, endpoint, normalize(method, opts))
 
         handle_errors(response)
 
@@ -32,6 +32,27 @@ module Jobber
           body:        parse_json(response.body),
           headers:     response.headers
         )
+      end
+
+      def normalize(method, opts)
+        return opts unless method == :get
+
+        opts.clone.tap do |o|
+          o[:query] = encode(o[:query]) if o[:query].present?
+        end
+      end
+
+      def encode(query)
+        query.map do |k, v|
+          if v.is_a? Hash
+            v = v.map do |nk, nv|
+              op = (nk.to_s == "updated_at" ? ">" : "=")
+              "#{nk}#{op}#{nv}"
+            end.join(",")
+          end
+          v = "[#{v}]" if k.to_s == "where"
+          v.to_query(k)
+        end.join("&")
       end
 
       def handle_errors(response)

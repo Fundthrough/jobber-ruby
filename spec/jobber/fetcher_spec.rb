@@ -1,12 +1,12 @@
 require "spec_helper"
 
 describe Jobber::Fetcher do
-  let(:method) { :post }
+  let(:method) { :get }
   let(:endpoint) { "/v1/invoices" }
   let(:opts) { { body: request_body, headers: request_headers, query: query } }
   let(:request_body) { { client: { username: "Vivo", first_name: "Jemmy", last_name: "Vardy" } } }
   let(:request_headers) { { "Custom-Header" => "3424343" } }
-  let(:query) { { type: "active" } }
+  let(:query) { { where: { type: "Payment", debt: "false", updated_at: "264953" }, per_page: 1, page: 1 } }
   let(:response) { double(:response, body: body, headers: headers, code: code, success?: true) }
   let(:body) { '{"client":{"id":"121"}}' }
   let(:headers) { { "Content-Type" => "application/json" } }
@@ -40,7 +40,7 @@ describe Jobber::Fetcher do
       context "Server error" do
         let(:code) { 500 }
 
-        before { allow(described_class).to receive(:post).and_return(response) }
+        before { allow(described_class).to receive(:get).and_return(response) }
 
         it { expect { subject }.to raise_error(Jobber::ApiServerError) }
       end
@@ -48,15 +48,16 @@ describe Jobber::Fetcher do
       context "Auth error" do
         let(:code) { 401 }
 
-        before { allow(described_class).to receive(:post).and_return(response) }
+        before { allow(described_class).to receive(:get).and_return(response) }
 
         it { expect { subject }.to raise_error(Jobber::AuthorizationError) }
       end
     end
 
     context "without connection errors" do
-      let(:request_opts) { { body: json_body, headers: request_headers, query: query } }
+      let(:request_opts) { { body: json_body, headers: request_headers, query: encoded_query } }
       let(:json_body) { { client: { "username": "Vivo", "first_name": "Jemmy", "last_name": "Vardy" } } }
+      let(:encoded_query) { "where=%5Btype%3DPayment%2Cdebt%3Dfalse%2Cupdated_at%3E264953%5D&per_page=1&page=1" }
 
       before do
         allow(described_class).to receive(method).and_return(response)
@@ -64,7 +65,7 @@ describe Jobber::Fetcher do
       end
 
       context "with json response" do
-        it { expect(described_class).to have_received(:post).with(endpoint, request_opts) }
+        it { expect(described_class).to have_received(:get).with(endpoint, request_opts) }
         it { expect(subject.success?).to be_truthy }
         it { expect(subject.status_code).to eq(200) }
         it { expect(subject.body).to be_kind_of(Hashie::Mash) }
