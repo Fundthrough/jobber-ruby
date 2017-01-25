@@ -13,4 +13,10 @@ describe Jobber::API::User do
 
     it { expect(subject).to have_received(:request).with(:get, "/users/123") }
   end
+
+  describe "#current" do
+    before { subject.current }
+
+    it { expect(subject).to have_received(:request).with(:get, "/users/me") }
+  end
 end

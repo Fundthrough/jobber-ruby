@@ -6,6 +6,12 @@ module Jobber
 
         request(:get, endpoint)
       end
+
+      def current
+        endpoint = "/users/me"
+
+        request(:get, endpoint)
+      end
     end
   end
 end
