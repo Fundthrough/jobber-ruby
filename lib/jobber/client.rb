@@ -2,6 +2,7 @@ require "jwt"
 require "jobber/api/base"
 require "jobber/api/token"
 require "jobber/api/account"
+require "jobber/api/user"
 require "jobber/api/client"
 require "jobber/api/invoice"
 require "jobber/api/transaction"
@@ -35,6 +36,10 @@ module Jobber
 
     def account
       Jobber::API::Account.new(self)
+    end
+
+    def user
+      Jobber::API::User.new(self)
     end
 
     def client
