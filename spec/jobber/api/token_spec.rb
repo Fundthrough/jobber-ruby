@@ -40,6 +40,6 @@ describe Jobber::API::Token do
 
     let(:query) { { refresh_token: refresh_token } }
 
-    it { expect(::Jobber::Fetcher).to have_received(:request).with(:get, "/oauth/token", query: query) }
+    it { expect(::Jobber::Fetcher).to have_received(:request).with(:get, "/oauth/revoke", query: query) }
   end
 end

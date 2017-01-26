@@ -17,7 +17,7 @@ module Jobber
       end
 
       def revoke
-        endpoint = "/oauth/token"
+        endpoint = "/oauth/revoke"
         query = { refresh_token: jobber_client.refresh_token }
 
         request(:get, endpoint, query: query)
