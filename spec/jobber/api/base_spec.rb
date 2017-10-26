@@ -5,7 +5,13 @@ describe Jobber::API::Base do
 
   let(:jobber_client) { double(:client, access_token: access_token) }
   let(:access_token) { "token" }
-  let(:default_headers) { { "API-ACCESS-TOKEN" => "token", "X-API-SIDE-LOADING-ENABLED" => "true" } }
+  let(:default_headers) do
+    {
+      "API-ACCESS-TOKEN" => "token",
+      "X-API-SIDE-LOADING-ENABLED" => "true",
+      "X-API-VERSION" => "3.3.0"
+    }
+  end
   before do
     allow(::Jobber::Fetcher).to receive(:request)
     allow(jobber_client).to receive(:refresh_access_token!)
