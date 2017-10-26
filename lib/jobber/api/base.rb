@@ -21,7 +21,8 @@ module Jobber
       def default_headers
         {
           "API-ACCESS-TOKEN" => jobber_client.access_token,
-          "X-API-SIDE-LOADING-ENABLED" => "true"
+          "X-API-SIDE-LOADING-ENABLED" => "true",
+          "X-API-VERSION" => "3.3.0"
         }
       end
     end
